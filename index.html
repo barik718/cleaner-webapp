@@ -12,27 +12,26 @@
 <button onclick="mark()">Я вышел</button>
 
 <script>
-  const tg = window.Telegram.WebApp;
-  tg.ready();
+const tg = window.Telegram.WebApp;
+tg.ready();
 
-  function mark() {
-    const user = tg.initDataUnsafe.user;
+function mark() {
+  const user = tg.initDataUnsafe.user;
 
-    const data = {
+  fetch("ВСТАВЬТЕ_СЮДА_WEBHOOK_URL", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
       id: user.id,
       name: user.first_name,
       username: user.username
-    };
+    })
+  });
 
-    tg.sendData(JSON.stringify(data));
-    tg.close();
-  }
-
-  function mark() {
-    const user = tg.initDataUnsafe.user;
-    alert("Привет, " + user.first_name + " 👋");
-    tg.close();
-  }
+  tg.close();
+}
 </script>
 
 </body>
