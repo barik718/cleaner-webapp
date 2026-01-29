@@ -17,6 +17,20 @@
 
   function mark() {
     const user = tg.initDataUnsafe.user;
+
+    const data = {
+      id: user.id,
+      name: user.first_name,
+      username: user.username
+    };
+
+    tg.sendData(JSON.stringify(data));
+    tg.close();
+  }
+</script>
+
+  function mark() {
+    const user = tg.initDataUnsafe.user;
     alert("Привет, " + user.first_name + " 👋");
     tg.close();
   }
