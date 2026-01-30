@@ -48,24 +48,13 @@ alert(
 "name: " + user.first_name
 );
 
-fetch("https://script.google.com/macros/s/AKfycbyDiadNgwE6EaJhi6uDMlN7g1-atSdvTQ4fhjVN9M7kowjXQm2yNB0_Zf2HpFahOeeNeg/exec", {
+fetch("https://httpbin.org/post", {
 method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({
-id: user.id,
-name: user.first_name,
-username: user.username
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ test: "ok" })
 })
-})
-.then(response => {
-alert("✅ fetch выполнен, статус: " + response.status);
-tg.close(); // 🔴 ЗАКРЫВАЕМ ТОЛЬКО ПОСЛЕ УСПЕШНОГО FETCH
-})
-.catch(error => {
-alert("❌ Ошибка fetch");
-console.error(error);
+.then(() => alert("✅ fetch РАБОТАЕТ"))
+.catch(() => alert("❌ fetch НЕ работает"));
 });
 }
 </script>
