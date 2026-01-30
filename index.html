@@ -4,13 +4,27 @@
 <meta charset="UTF-8">
 <title>Выход на работу</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-<body style="font-family:Arial; text-align:center; padding:40px;">
-<h2>Доброе утро 👋</h2>
-<p>Нажмите кнопку, чтобы отметить выход</p>
+<body style="font-family: Arial; text-align: center; padding: 40px;">
 
-<button onclick="mark()" style="font-size:20px; padding:15px 30px; border-radius:10px; background:#2ea44f; color:white; border:none;">
+<h2>Доброе утро 👋</h2>
+<p>Нажмите кнопку, чтобы отметить выход на работу</p>
+
+<button
+onclick="mark()"
+style="
+font-size: 20px;
+padding: 15px 30px;
+border-radius: 10px;
+background: #2ea44f;
+color: white;
+border: none;
+cursor: pointer;
+"
+>
 Я вышел
 </button>
 
@@ -19,24 +33,42 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 
 function mark() {
+alert("mark вызван"); // 🔴 ШАГ 1: проверяем, что кнопка работает
+
 const user = tg.initDataUnsafe.user;
+
 if (!user) {
-alert("Откройте через Telegram");
+alert("❌ user = null. Откройте WebApp через Telegram!");
 return;
 }
 
+alert(
+"Отправляем данные:\n" +
+"id: " + user.id + "\n" +
+"name: " + user.first_name
+);
+
 fetch("https://script.google.com/macros/s/AKfycbyDiadNgwE6EaJhi6uDMlN7g1-atSdvTQ4fhjVN9M7kowjXQm2yNB0_Zf2HpFahOeeNeg/exec", {
 method: "POST",
-headers: { "Content-Type": "application/json" },
+headers: {
+"Content-Type": "application/json"
+},
 body: JSON.stringify({
 id: user.id,
 name: user.first_name,
 username: user.username
 })
+})
+.then(response => {
+alert("✅ fetch выполнен, статус: " + response.status);
+tg.close(); // 🔴 ЗАКРЫВАЕМ ТОЛЬКО ПОСЛЕ УСПЕШНОГО FETCH
+})
+.catch(error => {
+alert("❌ Ошибка fetch");
+console.error(error);
 });
-
-tg.close();
 }
 </script>
+
 </body>
 </html>
